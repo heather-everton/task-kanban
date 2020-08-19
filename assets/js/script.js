@@ -10,7 +10,9 @@ var formEl = document.querySelector("#task-form");
 taskFormHandler = function(){
     //This prevents the page from automatically refreshinig and clearing out all the changes we just made usinig JS.
     event.preventDefault();
-    
+    // check if input values are empty strings
+
+
     //creates 2 vars in JS file by looking for the task name and task type in the form. 
     var taskNameInput = document.querySelector("input[name='task-name']").value;
     var taskTypeInput = document.querySelector("select[name='task-type']").value;
@@ -20,6 +22,13 @@ taskFormHandler = function(){
         name: taskNameInput,
         type: taskTypeInput
     };
+
+    if (!taskNameInput || !taskTypeInput) {
+        alert("You need to fill out the task form!");
+        return false;
+    }
+    
+    formEl.reset();
 
     // send it as an argument to createTaskEl
     createTaskEl(taskDataObj);
