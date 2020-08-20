@@ -228,10 +228,27 @@ var dropZoneDragHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
       event.preventDefault();
-      console.dir(taskListEl);
     }
   };
     
+  var dropTaskHandler = function(event) {
+    var id = event.dataTransfer.getData("text/plain");
+    var draggableElement = document.querySelector("[data-task-id='" + id + "']");
+    var dropZoneEl = event.target.closest(".task-list");
+    var statusType = dropZoneEl.id;
+    var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+    if (statusType === "tasks-to-do") {
+        statusSelectEl.selectedIndex = 0;
+    } 
+    else if (statusType === "tasks-in-progress") {
+    statusSelectEl.selectedIndex = 1;
+    } 
+    else if (statusType === "tasks-completed") {
+    statusSelectEl.selectedIndex = 2;
+    }
+    dropZoneEl.appendChild(draggableElement);
+
+  };
   
 
 //this is looking at the formEL variable we set above (line 7 of JS file) and adding an action to "listen" for. 
@@ -245,4 +262,4 @@ pageContentEl.addEventListener("dragstart", dragTaskHandler);
 
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 
-    
+pageContentEl.addEventListener("drop", dropTaskHandler);
